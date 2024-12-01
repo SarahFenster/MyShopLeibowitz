@@ -2,13 +2,18 @@
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
+
 namespace Repository
 {
     public class UserRepository : IUserRepository
     {
 
-        string filePath = "E:\\WebApi\\MyShop\\MyShop\\Users.txt";
+        ApiDbToCodeContext _apiDbToCodeContext;
+        public UserRepository(ApiDbToCodeContext ApiDbToCodeContext)
+        {
+            _apiDbToCodeContext = ApiDbToCodeContext;
 
+        }
 
         public User GetUserById(int id)
         {
