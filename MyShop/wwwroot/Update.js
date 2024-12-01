@@ -57,38 +57,35 @@ const getAllDetilesForUpdate = () => {
         LastName: document.querySelector("#lastNameUpdate").value
     }
 }
+
+
+
 const updateUser = async () => {
     const updateUser = getAllDetilesForUpdate()
-
     const currentUser = JSON.parse(sessionStorage.getItem("user"))
-    //if (strengthMeter.value < 3)
-    //    alert("Password is too weak")
-    try {
-        const responseput = await fetch(`https://localhost:44379/api/Users/${currentUser.userId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(updateUser)
-        })
-        console.log(responseput)
-      
-        if (responseput.status == 204) {
-            alert(`The user  ${currentUser.firstName}  details updated successfully!`)
-            window.location.href = "Login.html";
-        }
-           else if (responseput.status === 401) throw new Error("Password is not strong enght ");
-          
-        
-        else
-            alert("Something went wrong, try again");
-        
-            
-    }
-    
-    catch (error) {
- alert (error)
-    }
+    if (strengthMeter.value < 3)
+        alert("Password is too weak")
+    else {
+        try {
+            const responseput = await fetch(`https://localhost:44379/api/Users/${currentUser.userId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updateUser)
+            })
+            if (!responseput.ok)
+                throw new Error(`HTTP error! status ${responsePost.status}`)
 
+
+            if (responseput.status == 200) {
+                alert(`The user  ${currentUser.firstName}  details updated successfully!`)
+                window.location.href = "Login.html";
+            }
+        }
+        catch (error) {
+            alert("Something went wrong, try again...\nThe error:" + error)
+        }
+    }
 }
 

@@ -2,7 +2,7 @@
 using service;
 using System.Text.Json;
 using Entity;
-
+using service;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MyShop.Controllers
@@ -30,9 +30,9 @@ namespace MyShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id) { 
+        public async Task<ActionResult<User>> Get(int id) { 
 
-        User foundUser = userService.GetUserById(id);
+        User foundUser =  await userService.GetUserById(id);
         if (foundUser == null)
             return  NoContent();
         else 
@@ -43,14 +43,14 @@ namespace MyShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult Post([FromBody] User user)
+        public async Task<ActionResult> Post([FromBody] User user)
         {
-            User newUser = userService.AddUser(user);
+            User newUser =  await userService.AddUser(user);
     return newUser != null ? Ok(newUser) : Unauthorized();
         }
 
         [HttpPost("password")]
-        public IActionResult CheckPassword([FromBody] string password)
+        public async Task<IActionResult> CheckPassword([FromBody] string password)
         {
 
           int Score = userService.CheckPassword(password);
@@ -62,9 +62,9 @@ namespace MyShop.Controllers
 
 
         [HttpPost("login")]
-        public ActionResult<User> LogIn([FromQuery] string userName, string password)
+        public async Task<ActionResult<User>> LogIn([FromQuery] string userName, string password)
         {
-            User userLogin = userService.LogIn(userName, password);
+            User userLogin =await userService.LogIn(userName, password);
             if (userLogin == null)
                 return NoContent();
             else
@@ -72,12 +72,16 @@ namespace MyShop.Controllers
          
            
         }
+
+       
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User userToUpdate)
+        public async Task Put(int id, [FromBody] User userToUpdate)
         {
-            return (userService.UpdateUser(id, userToUpdate) == 0) ?  Unauthorized() :NoContent();
+            await userService.UpdateUser(id, userToUpdate);
         }
+
+    
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]

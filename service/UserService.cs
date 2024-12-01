@@ -13,17 +13,17 @@ namespace service
             this.userRepository = userRepository;
         }
 
-        public User GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
-            return userRepository.GetUserById(id);
+            return await userRepository.GetUserById(id);
 
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             if (CheckPassword(user.Password) > 2)
             {
-                return userRepository.AddUser(user);
+                return await userRepository.AddUser(user);
             }
             else
 
@@ -31,22 +31,32 @@ namespace service
 
 
         }
-        public int UpdateUser(int id, User userToUpdate)
+        public async Task UpdateUser(int id, User userToUpdate)
         {
-           
             if (CheckPassword(userToUpdate.Password) > 2)
-            {
-                return (userRepository.UpdateUser(id, userToUpdate));
-            }
-            else
+                await userRepository.UpdateUser(id, userToUpdate);
 
-                return 0;
 
         }
+        //public async Task UpdateUser(int id, User userToUpdate)
+        //{
+        //    if (CheckPassword(userToUpdate.Password) > 2)
+        //        await (userRepository.UpdateUser(id, userToUpdate));
 
-        public User LogIn(string userName, string password)
+        //    //if (CheckPassword(userToUpdate.Password) > 2)
+        //    //{
+
+        //    //    return await (userRepository.UpdateUser(id, userToUpdate));
+        //    //}
+        //    //else
+
+        //    //    return 0;
+
+        //}
+
+        public async Task<User> LogIn(string userName, string password)
         {
-            return userRepository.LogIn(userName, password);
+            return await userRepository.LogIn(userName, password);
         }
         public int CheckPassword(string password)
         {
