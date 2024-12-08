@@ -38,22 +38,7 @@ namespace service
 
 
         }
-        //public async Task UpdateUser(int id, User userToUpdate)
-        //{
-        //    if (CheckPassword(userToUpdate.Password) > 2)
-        //        await (userRepository.UpdateUser(id, userToUpdate));
-
-        //    //if (CheckPassword(userToUpdate.Password) > 2)
-        //    //{
-
-        //    //    return await (userRepository.UpdateUser(id, userToUpdate));
-        //    //}
-        //    //else
-
-        //    //    return 0;
-
-        //}
-
+    
         public async Task<User> LogIn(string userName, string password)
         {
             return await userRepository.LogIn(userName, password);

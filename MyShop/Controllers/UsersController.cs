@@ -21,12 +21,6 @@ namespace MyShop.Controllers
         }
 
 
-        //GET: api/<UsersController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { " ", " " };
-        }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
@@ -43,7 +37,7 @@ namespace MyShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] User user)
+        public async Task<ActionResult> Register([FromBody] User user)
         {
             User newUser =  await userService.AddUser(user);
     return newUser != null ? Ok(newUser) : Unauthorized();
@@ -83,10 +77,5 @@ namespace MyShop.Controllers
 
     
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
