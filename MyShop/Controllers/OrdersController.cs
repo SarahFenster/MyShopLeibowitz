@@ -1,4 +1,6 @@
-﻿using Entity;
+﻿using AutoMapper;
+using DTO;
+using Entity;
 using Microsoft.AspNetCore.Mvc;
 using service;
 
@@ -12,10 +14,11 @@ namespace MyShop.Controllers
     {
 
         IOrderService orderService;
-
-        public OrdersController(IOrderService orderService)
+        IMapper _mapper;
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
             this.orderService = orderService;
+            _mapper = mapper;
         }
 
 
@@ -25,21 +28,26 @@ namespace MyShop.Controllers
         {
 
             Order foundOrder = await orderService.GetOrderById(id);
+           
             if (foundOrder == null)
                 return NoContent();
             else
 
-                return Ok(foundOrder);
+                return Ok( _mapper.Map<Order, OrderDTO>(foundOrder));
+
+        
+
+
 
         }
 
         // POST api/<OrdersController>
-      
+
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Order order)
+        public async Task<ActionResult> Post([FromBody] AddOrderDTO order)
         {
-            Order newOrder = await orderService.AddOrder(order);
-            return newOrder != null ? Ok(newOrder) : Unauthorized();
+            Order newOrder = await orderService.AddOrder(_mapper.Map<AddOrderDTO, Order>(order));
+            return newOrder != null ? Ok( _mapper.Map<Order, OrderDTO>(newOrder)) : Unauthorized();
         }
 
     }

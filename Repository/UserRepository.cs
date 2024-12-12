@@ -1,4 +1,5 @@
-﻿using Entity;
+﻿using AutoMapper;
+using Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -10,9 +11,11 @@ namespace Repository
     {
 
         ApiDbToCodeContext _apiDbToCodeContext;
-        public UserRepository(ApiDbToCodeContext ApiDbToCodeContext)
+  
+        public UserRepository(ApiDbToCodeContext ApiDbToCodeContext )
         {
             _apiDbToCodeContext = ApiDbToCodeContext;
+
 
         }
 
@@ -20,7 +23,9 @@ namespace Repository
 
         public async Task<User> GetUserById(int id)
         {
-            return await _apiDbToCodeContext.Users.FindAsync(id);
+       
+            return await _apiDbToCodeContext.Users.Include(user => user.Orders).FirstOrDefaultAsync(user => user.UserId == id);
+
 
         }
 

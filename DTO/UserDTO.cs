@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class UserDTO(int UserId , string UserName , string? FirstName,string? LastName )
-    {
-    }
+    public class GetUserDTO(string UserName, string? FirstName, string? LastName, ICollection<Order> Orders);
+    public class RegisterUserDTO(string UserName, string? FirstName, string? LastName, string Password);
+
+
 }

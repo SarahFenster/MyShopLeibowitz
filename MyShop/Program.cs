@@ -22,11 +22,12 @@ builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddDbContext<ApiDbToCodeContext>(options => options.UseSqlServer(
     "Server=SRV2\\PUPILS;Database=api_db_to_code;Trusted_Connection=True;TrustServerCertificate=True"));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

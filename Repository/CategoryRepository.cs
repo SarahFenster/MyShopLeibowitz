@@ -15,6 +15,7 @@ namespace Repository
         public CategoryRepository(ApiDbToCodeContext ApiDbToCodeContext)
         {
             _apiDbToCodeContext = ApiDbToCodeContext;
+           
 
         }
 
@@ -22,8 +23,8 @@ namespace Repository
 
         public async Task<List<Category>> GetAllCategory()
         {
-            return await _apiDbToCodeContext.Categories.ToListAsync();
-
+            return await _apiDbToCodeContext.Categories.Include(c => c.Products).ToListAsync();
+ 
 
         }
     }

@@ -3,6 +3,8 @@ using service;
 using System.Text.Json;
 using Entity;
 using service;
+using AutoMapper;
+using DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MyShop.Controllers
@@ -14,33 +16,34 @@ namespace MyShop.Controllers
     public class UsersController : ControllerBase
     {
         IUserService userService;
-
-        public UsersController(IUserService userService)
+        IMapper _mapper;
+        public UsersController(IUserService userService, IMapper mapper)
         {
             this.userService = userService;
+            _mapper = mapper;
         }
 
 
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id) { 
+        public async Task<ActionResult<GetUserDTO>> Get(int id) { 
 
         User foundUser =  await userService.GetUserById(id);
         if (foundUser == null)
             return  NoContent();
-        else 
+        else
 
-        return Ok(foundUser);
+                return Ok(_mapper.Map<User, GetUserDTO>(foundUser));
 
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] User user)
+        public async Task<ActionResult> Register([FromBody] RegisterUserDTO user)
         {
-            User newUser =  await userService.AddUser(user);
-    return newUser != null ? Ok(newUser) : Unauthorized();
+            User newUser =  await userService.AddUser(_mapper.Map<RegisterUserDTO, User>(user));
+    return newUser != null ? Ok((_mapper.Map<User, GetUserDTO>(newUser))) : Unauthorized();
         }
 
         [HttpPost("password")]

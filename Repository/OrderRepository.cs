@@ -22,7 +22,9 @@ namespace Repository
 
         public async Task<Order> GetOrderById(int id)
         {
-            return await _apiDbToCodeContext.Orders.FindAsync(id);
+           
+            return await _apiDbToCodeContext.Orders.Include(order => order.User).Include(order => order.OrderItems).FirstOrDefaultAsync(order => order.OrderId == id);
+ 
 
         }
 
